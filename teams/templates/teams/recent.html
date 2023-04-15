@@ -15,33 +15,35 @@
             <thead>
               <tr>
                 <th scope="col">Team 1</th>
+                <th scope="col">Score</th>
                 <th scope="col">Team 2</th>
-                <th scope="col">Venue</th>
-                <th scope="col">Streamer</th>
-                <th scope="col">Schedule</th>
-                <th scope="col">Umpire</th>
+                <th scope="col">Score</th>
+                <!--<th scope="col">Schedule</th>-->
+                <th scope="col">Winner</th>
+                <th scope="col">Man of the Match</th>
+
               </tr>
             </thead>
             <tbody>
-              {% for i in matchs %}
+              {% for i in stats %}
               <tr>
                 <td>
-                    {{i.Home_team_id}}
+                    {{i.Inning_1_Bat}}
                 </td>
                 <td>
-                    {{i.Away_team_id}}
+                    {{i.Inning_1_score}}
                 </td>
                 <td>
-                    {{i.Venue}}
+                    {{i.Inning_2_Bat}}
                 </td>
                 <td>
-                    {{i.Streamer}}
+                    {{i.Inning_2_score}}
                 </td>
                 <td>
-                    {{i.Date}}
+                    {{i.Winner}}
                 </td>
                 <td>
-                    {{i.Umpire}}
+                    {{i.Player_of_the_match}}
                 </td>
               </tr>
               {% endfor %}
