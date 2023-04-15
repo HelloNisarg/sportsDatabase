@@ -12,12 +12,12 @@ Code_validate = RegexValidator(r'^[A-Z]{2,3}$', 'Only Capital-letters characters
 
 class ScoreField(models.CharField):
     description = "Score field"
-    
+
     def __init__(self, *args, **kwargs):
         kwargs["max_length"] = 10
         self.separator = kwargs.pop('separator', '/')
         super().__init__(*args, **kwargs)
-        
+
     def to_python(self, value):
         if value is None:
             return None
@@ -41,7 +41,7 @@ class ScoreField(models.CharField):
         #     return (a, b)
         # except (TypeError, ValueError):
         #     return None
-    
+
     def get_prep_value(self, value):
         if value is None:
             return None
@@ -67,15 +67,15 @@ class Team(models.Model):
 class Owner(models.Model):
     Team_name    = models.OneToOneField(Team, on_delete=models.CASCADE)
     Owner_name   = models.CharField(max_length=50, validators=[Name_validate])
-    
+
 
 
 class Coach(models.Model):
     Team_name   = models.OneToOneField(Team, on_delete=models.CASCADE)
     Coach_name  = models.CharField(max_length=50)
-    
 
-    
+
+
 
 
 class Match(models.Model):
@@ -91,8 +91,8 @@ class Match(models.Model):
 
 
 class Player(models.Model):
-    Player_roles = [('1', 'batter'), ('2', 'bowler'), ('3', 'All-rounder'), ('4', 'Wk')]
-    
+    Player_roles = [('batter', 'batter'), ('bowler', 'bowler'), ('Allrounder', 'Allrounder'), ('Wk', 'Wk')]
+
     Name    = models.CharField(max_length=50, primary_key=True, validators=[Name_validate])
     Team    = models.ForeignKey(Team, on_delete=models.CASCADE)
     Jersey_no = models.PositiveSmallIntegerField()
@@ -105,14 +105,14 @@ class Player(models.Model):
     Total_wickets = models.PositiveSmallIntegerField(default =0)
     Best_score_batting = models.PositiveSmallIntegerField(null=True)
     Best_Score_bowling = ScoreField(null=True)
-    
+
     @property
     def Best_Score(self):
         if (self.Role == 'batter') :
             return self.Best_score_batting
         elif(self.Role == 'bowler') :
             return self.Best_Score_bowling
-        elif(self.Role == 'All rounder'):
+        elif(self.Role == 'Allrounder' or self.Role == 'Wk'):
             return '%s & %s' %(self.Best_score_batting, self.Best_Score_bowling)
     def __str__(self):
         return '%s' %(self.Name)
@@ -132,7 +132,7 @@ class Match_Stats(models.Model):
     Inning_2_score  = ScoreField()
     Winner          = models.ForeignKey(Team, related_name="Winner", on_delete=models.DO_NOTHING)
     Player_of_the_match = models.ForeignKey(Player,on_delete=models.DO_NOTHING)
-    
+
     def clean(self):
         if self.Winner != self.Match_Number.Home_team and self.Winner != self.Match_Number.Away_team:
             raise ValidationError('Winner team must be either the home team or the away team for the corresponding match.')
