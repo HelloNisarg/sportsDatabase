@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .models import ScoreField,Team,Owner,Coach,Match,Player,Captain,Match_Stats
+from .models import Team,Owner,Coach,Match,Player,Captain,Match_Stats
 from django.utils import timezone
 from .forms import PlayerForm
 
@@ -47,11 +47,16 @@ def matches(request):
   return render(request, 'teams/matches.html',context)
 
 def recent(request):
-  match_pre = Match.objects.filter(Date__lte = timezone.now()).order_by('-Date').values
+  match_pre = Match.objects.filter(Date__lte = timezone.now()).order_by('-Date')
+  stats = []
+  for match in match_pre :
+    stat = Match_Stats.objects.filter(Match_Number = match).first()
+    stats.append(stat)
   context ={
-    'Teams': Team.objects.all(),
-    'Players': Player.objects.all(),
-    'matchs' : match_pre
+    'Teams'     : Team.objects.all(),
+    'Players'   : Player.objects.all(),
+    'matchs'    : match_pre,
+    'stats'     : stats
   }
   return render(request, 'teams/recent.html',context)
 
