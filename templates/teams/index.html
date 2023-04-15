@@ -1,0 +1,89 @@
+{% extends "teams/base.html" %}
+{% block body %}
+<h3 class="m-4 text-white">Teams</h3>
+<div class="row">
+  <div class="col-12">
+    {% if Players %}
+    <div class="card text-white bg-dark ms-3 me-3 mb-4" style="border-radius: 30px;">
+      <div class="card-header text-center " style="font-size: 2em;">
+        Teams Record
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+        <div class="table-responsive">
+          <table class="table table-hover text-white" style="font-size: 1.2em;">
+            <thead>
+              <tr>
+                <!-- <th scope="col">Player Name</th>
+                <th scope="col">Team</th>
+                <th scope="col">Jersey_no</th>
+                <th scope="col">Price</th>
+                <th scope="col">Age</th>
+                <th scope="col">Role</th>
+                <th scope="col">Strike_Rate</th>
+                <th scope="col">Total_runs</th>
+                <th scope="col">Total_wickets</th>
+                <th scope="col">Best_score_batting</th>
+                <th scope="col">Best_Score_bowling</th> -->
+                <th scope="col">Team</th>
+                <th scope="col">Players</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Coach</th>
+                <th scope="col">Captain</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for Team in Teams%}
+              <tr>
+                <td>{{Team.Name}}</td>
+                
+                <td>
+                {% for player in names %}
+                
+                {%if player.Team.Code == Team.Code %}
+                
+                  {{player.Name}}<br>
+              
+                {% endif %}
+                {% endfor %}
+                </td>
+
+                {% for coach in Coachs %}
+                {%if coach.Team_name.Code == Team.Code %}
+                <td>{{coach.Coach_name}}</td>
+
+                {% endif %}
+                {% endfor %}
+                {% for owner in Owners %}
+                {%if owner.Team_name.Code == Team.Code %}
+                <td>{{owner.Owner_name}}</td>
+
+                {% endif %}
+                {% endfor %}
+                {% for captain in Captains %}
+                {%if captain.Team.Code == Team.Code %}
+                <td>{{captain.Captain}}</td>
+
+                {% endif %}
+                {% endfor %}
+                
+
+                
+
+              </tr>
+              
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        </p>
+      </div>
+    </div>
+    {% else %}
+    <h5 class="alert alert-primary ms-4 me-4"> NO Players Record</h5>
+    {% endif %}
+  </div>
+</div>
+
+
+{% endblock %}
