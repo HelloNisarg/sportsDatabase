@@ -59,25 +59,3 @@ def recent(request):
     'stats'     : stats
   }
   return render(request, 'teams/recent.html',context)
-
-# def edit(request,id):
-#   if request.method == 'POST':
-#     player = Player.objects.get(pk=id)
-#     form = PlayerForm(request.POST,instance = player)
-#     if form.is_valid():
-#       form.save()
-#       return render(request,'teams/edit.html',{
-#         'form':form,
-#         'success':True
-#       })
-#   else:
-#     player = Player.objects.get(pk=id)
-#     form = PlayerForm(request.POST,instance = player)
-#     return render(request,'teams/edit.html',{
-#         'form':form,
-#       })
-#   return HttpResponseRedirect(reverse('edit'))
-
-# def edit(request,pk):
-#   player = Player.objects.get(id=pk)
-#   return render(request,'teams/edit.html')
